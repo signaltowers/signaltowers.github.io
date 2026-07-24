@@ -40,9 +40,8 @@ def aff_href(slug, fallback):
 def aff_tgt(slug):
     return ' target="_blank"' if AFF.get(slug) else ''
 
-# ----------------------------------------------------------------------------- AI 解锁教程引流
-# 机场连上后仍可能因节点、指纹、时区或账号环境报错；这里统一引导到发布前待回填的教程入口。
-AI_GUIDE = "https://guide.rtxk.us/category/tutorial/ai-coding"
+# ----------------------------------------------------------------------------- AI 引流（统一直跳订阅商城）
+# 机场连上后仍可能因节点、指纹、时区或账号环境报错；页面所有 AI 引流位统一直达商城，用户一键上车。
 AI_SHOP = "https://shop.rtxk.us"
 AI_CARDS = [
     {"key": "chatgpt", "name": "ChatGPT", "c1": "#10A37F", "c2": "#19C79A", "sym": "✺",
@@ -68,7 +67,7 @@ def ai_promo_html():
             '<h3>%s</h3><p class="ai-role">%s</p>'
             '<div class="tagrow">%s</div>'
             '<span class="ai-go">%s →</span></a>'
-            % (c["key"], AI_GUIDE, esc(c["name"]), esc(c["badge"]),
+            % (c["key"], AI_SHOP, esc(c["name"]), esc(c["badge"]),
                c["c1"], c["c2"], c["sym"], esc(c["name"]), esc(c["role"]), chip_html, esc(c["go"])))
     return (
         '<section class="section wrap ai-promo" id="ai-guide" aria-label="AI 解锁教程推广">'
@@ -83,7 +82,7 @@ def ai_promo_html():
         '<div class="ai-foot-txt"><b>拿不准卡在哪一步？</b>教程里有 30 秒自查清单，两个问题定位你为啥连不上，再对症修。</div>'
         '<a class="btn btn-primary btn-lg" href="%s" target="_blank" rel="noopener sponsored">进入 AI 解锁教程 ↗</a>'
         '<a class="btn btn-ghost btn-lg" href="%s" target="_blank" rel="noopener sponsored">懒得折腾？直接上车 AI 订阅商城 ↗</a>'
-        '</div></div></section>' % ("\n".join(cards), AI_GUIDE, AI_SHOP)
+        '</div></div></section>' % ("\n".join(cards), AI_SHOP, AI_SHOP)
     )
 
 def ai_banner_html():
@@ -96,7 +95,7 @@ def ai_banner_html():
         '<span class="ai-banner-txt"><b>机场买了，ChatGPT 还是转圈 / 报错？</b> '
         '十有八九不是机场的锅，是节点选错、指纹时区没对齐、账号环境不干净。3 分钟教你把 ChatGPT / Claude / Gemini 调到稳定登录、少封号。</span>'
         '<span class="ai-banner-cta">AI 解锁教程 ↗</span></a></div>'
-    ) % AI_GUIDE
+    ) % AI_SHOP
 
 # ----------------------------------------------------------------------------- 信号塔攻略博客引流
 BLOG = "https://guide.rtxk.us/category/tutorial/antigravity"   # 攻略博客主入口（“更多教程”按钮）

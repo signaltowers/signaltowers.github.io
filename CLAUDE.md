@@ -15,7 +15,7 @@
 
 ## 站点与引流链接
 - 主域名：**https://555736.xyz**（Cloudflare Pages）｜镜像：**https://signaltowers.github.io**（GitHub Pages）
-- 引流常量（在 `build.py` 顶部）：AI订阅商城 `shop.rtxk.us`（导航「AI订阅」）｜AI解锁教程 `guide.rtxk.us/category/tutorial/ai-coding`（`AI_GUIDE`）｜攻略博客 `guide.rtxk.us/category/tutorial/antigravity`（`BLOG`）
+- 引流常量（在 `build.py` 顶部）：AI 订阅商城 `AI_SHOP = shop.rtxk.us`——**页面所有 AI 引流位（导航「AI订阅」、首页/机场大全的「AI 解锁教程」推广专区卡片与按钮、详情页顶部 AI 横幅）统一直跳此商城**｜攻略博客 `guide.rtxk.us/category/tutorial/antigravity`（`BLOG`，内容位，保持原样）
 - **WP 博客联动**（build.py `WP_SECTIONS` / `wp_article_url`）：构建时直读 `guide.rtxk.us` 的 `airport` / `tutorial/ai-coding` / `tutorial/antigravity` 分类 RSS 渲染右侧「信号塔攻略」三组真实文章；每个机场详情页自动直链博客原文 `guide.rtxk.us/airport/<slug>.html`（slug 与本站一致）。抓取失败走 `WP_FALLBACK` 离线兜底。
 - 推广位：`assets/config.js` 的 `aff[slug]`（推广短链）+ `code[slug]`（优惠码），**键 = slug**；留空则页面自动隐藏。
 
