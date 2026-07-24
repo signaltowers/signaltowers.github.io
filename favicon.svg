@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="信号塔 SignalTower">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64">
+      <stop offset="0" stop-color="#4FE0B0"/><stop offset=".5" stop-color="#3AA0FF"/><stop offset="1" stop-color="#FFB84D"/>
+    </linearGradient>
+    <radialGradient id="beam" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFB84D" stop-opacity=".85"/><stop offset="1" stop-color="#FFB84D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="#070A15"/>
+  <!-- 向外扩散的信号弧（3 道，越外越淡） -->
+  <g fill="none" stroke="url(#g)" stroke-width="2.2" stroke-linecap="round">
+    <path d="M27 15.5 Q32 12.5 37 15.5" opacity=".95"/>
+    <path d="M24 13.5 Q32 9.3 40 13.5" opacity=".6"/>
+    <path d="M21 11.6 Q32 6.2 43 11.6" opacity=".33"/>
+  </g>
+  <!-- 信号塔 / 灯塔剪影 -->
+  <path d="M30 21 L34 21 L38.4 52 L25.6 52 Z" fill="url(#g)"/>
+  <rect x="22.5" y="51" width="19" height="3.6" rx="1.8" fill="url(#g)"/>
+  <!-- 塔身层线（信号塔骨架感） -->
+  <g stroke="#070A15" stroke-width="1.6" stroke-linecap="round">
+    <path d="M28.6 33 L35.4 33"/>
+    <path d="M27.4 43 L36.6 43"/>
+    <path d="M32 22 L32 50"/>
+  </g>
+  <!-- 顶部塔灯：琥珀光晕 + 白色高光 -->
+  <circle cx="32" cy="20" r="6.2" fill="url(#beam)"/>
+  <circle cx="32" cy="20" r="2.7" fill="#fff"/>
+</svg>

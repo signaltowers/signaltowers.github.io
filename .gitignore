@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# wrangler 本地部署缓存，勿提交
+.wrangler/
+Thumbs.db
+_gen_*.py
+
+# 内部工作文档（不发布）
+BRAND.md
+TODO-发布前替换.md

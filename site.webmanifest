@@ -1,0 +1,16 @@
+{
+  "name": "信号塔 · SignalTower · 机场推荐榜",
+  "short_name": "信号塔",
+  "description": "机场太多、跑路太快。信号塔只帮你盯住现在还能稳定发信号的那几家。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#070A15",
+  "theme_color": "#070A15",
+  "icons": [
+    { "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
