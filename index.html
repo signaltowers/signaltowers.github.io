@@ -68,30 +68,10 @@
 <a class="skip" href="#main">跳到主内容</a>
 <div class="bg-grid" aria-hidden="true"></div>
 
-<!-- NAV -->
-<header class="nav">
-  <nav class="wrap nav-in" aria-label="主导航">
-    <a class="brand" href="/" aria-label="信号塔 · SignalTower 首页">
-      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <defs><linearGradient id="bg1" x1="0" y1="0" x2="40" y2="40"><stop offset="0" stop-color="#4FE0B0"/><stop offset=".5" stop-color="#3AA0FF"/><stop offset="1" stop-color="#FFB84D"/></linearGradient></defs>
-        <circle cx="20" cy="20" r="18" stroke="url(#bg1)" stroke-width="1.6" opacity=".5"/>
-        <path d="M20 5 L26 32 L20 27 L14 32 Z" fill="url(#bg1)"/>
-        <circle cx="20" cy="20" r="2.4" fill="#fff"/>
-      </svg>
-      <span>机场推荐榜<small>信号塔 · SignalTower · 老司机实测</small></span>
-    </a>
-    <button class="nav-toggle" aria-label="展开菜单" aria-expanded="false">☰</button>
-    <div class="nav-links">
-      <a href="#board">机场榜单</a>
-      <a href="#emby">Emby影音</a>
-      <a href="/airports/">机场大全</a>
-      <a href="#guide">怎么选</a>
-      <a href="#compare">参数对比</a>
-      <a class="nav-ai" href="https://shop.rtxk.us" target="_blank" rel="noopener sponsored">AI订阅 ↗</a>
-      <a class="nav-blog" href="https://guide.rtxk.us/category/tutorial/antigravity" target="_blank" rel="noopener">攻略博客 ↗</a>
-    </div>
-  </nav>
-</header>
+<!-- NAV（由 build.py 注入 nav_html()，全站单一来源，勿手改） -->
+<!--GEN:NAV:START-->
+<header class="nav"><nav class="wrap nav-in" aria-label="主导航"><a class="brand" href="/" aria-label="信号塔 · SignalTower 首页"><svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><defs><linearGradient id="bg1" x1="0" y1="0" x2="40" y2="40"><stop offset="0" stop-color="#4FE0B0"/><stop offset=".5" stop-color="#3AA0FF"/><stop offset="1" stop-color="#FFB84D"/></linearGradient></defs><circle cx="20" cy="20" r="18" stroke="url(#bg1)" stroke-width="1.6" opacity=".5"/><path d="M20 5 L26 32 L20 27 L14 32 Z" fill="url(#bg1)"/><circle cx="20" cy="20" r="2.4" fill="#fff"/></svg><span>机场推荐榜<small>信号塔 · SignalTower · 老司机实测</small></span></a><button class="nav-toggle" aria-label="展开菜单" aria-expanded="false">☰</button><div class="nav-links"><a href="/#board">机场榜单</a><a href="/#emby">Emby影音</a><a href="/airports/">机场大全</a><a href="/#guide">怎么选</a><a href="/#compare">参数对比</a><a class="nav-ai" href="https://shop.rtxk.us" target="_blank" rel="noopener sponsored">AI订阅 ↗</a><a class="nav-blog" href="https://guide.rtxk.us/category/tutorial/antigravity" target="_blank" rel="noopener">攻略博客 ↗</a><a class="btn btn-primary nav-cta" href="/airports/">全部机场</a></div></nav></header>
+<!--GEN:NAV:END-->
 
 <main id="main">
 
@@ -169,11 +149,9 @@
 
 <!-- AI 引流首屏钩子条 -->
 <div class="wrap">
-  <a class="ai-banner" href="https://shop.rtxk.us" target="_blank" rel="noopener sponsored" aria-label="AI 订阅商城：ChatGPT、Claude、Gemini 稳定订阅一键开通">
-    <span class="ai-banner-dots" aria-hidden="true"><i style="--c:#4989F5"></i><i style="--c:#10A37F"></i><i style="--c:#E8825A"></i></span>
-    <span class="ai-banner-txt"><b>机场买了，ChatGPT 还是转圈 / 报错？</b> 十有八九不是机场的锅，是节点、指纹时区、账号环境没调好。懒得自己折腾？直接上车商城里调好的稳定 ChatGPT / Claude / Gemini 订阅，即开即用。</span>
-    <span class="ai-banner-cta">AI 订阅商城 ↗</span>
-  </a>
+<!--GEN:AIBANNER:START-->
+<a class="ai-banner" href="https://shop.rtxk.us" target="_blank" rel="noopener sponsored" aria-label="AI 订阅商城：ChatGPT、Claude、Gemini 稳定订阅一键开通"><span class="ai-banner-dots" aria-hidden="true"><i style="--c:#4989F5"></i><i style="--c:#10A37F"></i><i style="--c:#E8825A"></i></span><span class="ai-banner-txt"><b>机场买了，ChatGPT 还是转圈 / 报错？</b> 十有八九不是机场的锅，是节点、指纹时区、账号环境没调好。懒得自己折腾？直接上车商城里调好的稳定 ChatGPT / Claude / Gemini 订阅，即开即用。</span><span class="ai-banner-cta">AI 订阅商城 ↗</span></a>
+<!--GEN:AIBANNER:END-->
 </div>
 
 <!--GEN:WALL:START-->

@@ -85,17 +85,21 @@ def ai_promo_html():
         '</div></div></section>' % ("\n".join(cards), AI_SHOP, AI_SHOP)
     )
 
-def ai_banner_html():
-    # 详情页上部紧凑钩子条：放在规格表后、正文前，填补留白，新标签打开保留机场页
+def ai_banner_inner():
+    # AI 首屏钩子条 <a> 本体：文案+链接单一来源，首页与详情页共用；外层 wrap 由各自模板决定
     return (
-        '<div class="wrap" style="margin-top:30px"><a class="ai-banner" href="%s" target="_blank" '
+        '<a class="ai-banner" href="%s" target="_blank" '
         'rel="noopener sponsored" aria-label="AI 订阅商城：ChatGPT、Claude、Gemini 稳定订阅一键开通">'
         '<span class="ai-banner-dots" aria-hidden="true"><i style="--c:#4989F5"></i>'
         '<i style="--c:#10A37F"></i><i style="--c:#E8825A"></i></span>'
         '<span class="ai-banner-txt"><b>机场买了，ChatGPT 还是转圈 / 报错？</b> '
         '十有八九不是机场的锅，是节点、指纹时区、账号环境没调好。懒得自己折腾？直接上车商城里调好的稳定 ChatGPT / Claude / Gemini 订阅，即开即用。</span>'
-        '<span class="ai-banner-cta">AI 订阅商城 ↗</span></a></div>'
+        '<span class="ai-banner-cta">AI 订阅商城 ↗</span></a>'
     ) % AI_SHOP
+
+def ai_banner_html():
+    # 详情页上部紧凑钩子条：放在规格表后、正文前，填补留白（带上间距）；复用 ai_banner_inner
+    return '<div class="wrap" style="margin-top:30px">%s</div>' % ai_banner_inner()
 
 # ----------------------------------------------------------------------------- 信号塔攻略博客引流
 BLOG = "https://guide.rtxk.us/category/tutorial/antigravity"   # 攻略博客主入口（“更多教程”按钮）
@@ -933,6 +937,8 @@ def main():
     idx = inject(idx, "WALL", render_wall())
     idx = inject(idx, "FOOTER_AIRPORTS", render_footer_airports())
     idx = inject(idx, "COUNT", str(len(AIRPORTS)))
+    idx = inject(idx, "NAV", nav_html())
+    idx = inject(idx, "AIBANNER", ai_banner_inner())
     idx = inject(idx, "AIPROMO", ai_promo_html())
     idx = inject(idx, "HDPROMO", hd_home_html())
     open(idx_path, "w", encoding="utf-8").write(idx)
