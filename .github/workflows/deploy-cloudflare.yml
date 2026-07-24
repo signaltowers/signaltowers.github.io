@@ -25,7 +25,7 @@ jobs:
         run: |
           mkdir -p dist
           git archive HEAD | tar -x -C dist
-          rm -rf dist/.github
+          rm -rf dist/.github dist/.claude dist/CLAUDE.md dist/BRAND.md dist/DESIGN.md dist/TODO-*.md
 
       - name: 发布到 Cloudflare Pages
         env:
