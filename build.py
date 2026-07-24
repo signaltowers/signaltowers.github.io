@@ -99,41 +99,103 @@ def ai_banner_html():
     ) % AI_GUIDE
 
 # ----------------------------------------------------------------------------- 信号塔攻略博客引流
-BLOG = "https://guide.rtxk.us/category/tutorial/antigravity"
-HD_GROUPS = [
-    {"t": "客户端配置", "c": "#3AA0FF", "links": [
-        ("Clash / Shadowrocket 配置", ""),
-        ("TUN 模式与节点选择", ""),
-        ("订阅更新失败排查", "")]},
-    {"t": "AI 解锁自查", "c": "#4FE0B0", "links": [
-        ("ChatGPT 登录报错排查", ""),
-        ("Claude Code 直连配置", ""),
-        ("Gemini 地区解锁检查", "")]},
-    {"t": "账号防封", "c": "#FFB84D", "links": [
-        ("浏览器指纹与时区对齐", ""),
-        ("干净账号环境自查", ""),
-        ("封号后止损与申诉", "")]},
+BLOG = "https://guide.rtxk.us/category/tutorial/antigravity"   # 攻略博客主入口（“更多教程”按钮）
+WP_BASE = "https://guide.rtxk.us"
+
+# 每家机场在攻略博客的深度评测原文（slug 与本站一致，构建时直链）
+def wp_article_url(slug):
+    return "%s/airport/%s.html" % (WP_BASE, slug)
+
+# 侧栏「信号塔攻略」：构建时直读 WP 博客对应分类的真实文章（RSS），带离线兜底。
+import urllib.request, xml.etree.ElementTree as ET
+WP_SECTIONS = [
+    {"t": "🛰️ 机场深度评测", "c": "#FFB84D", "cat": "airport", "n": 3},
+    {"t": "🤖 AI 编程国内直连", "c": "#4FE0B0", "cat": "tutorial/ai-coding", "n": 3},
+    {"t": "🛸 Antigravity 上手", "c": "#3AA0FF", "cat": "tutorial/antigravity", "n": 3},
 ]
+WP_FALLBACK = {
+    "airport": [
+        ("Mitce（米次）机场评测", WP_BASE + "/airport/mitce.html"),
+        ("西部数据 机场评测", WP_BASE + "/airport/westdata.html"),
+        ("红杏云 机场评测", WP_BASE + "/airport/hongxing.html")],
+    "tutorial/ai-coding": [
+        ("Claude Code 国内使用完整指南 2026", WP_BASE + "/tutorial/claude-code-china.html"),
+        ("AI 工具防封号终极指南：机场怎么选", WP_BASE + "/tutorial/ai-tools-anti-ban.html"),
+        ("四大 AI 编程工具怎么选", WP_BASE + "/tutorial/ai-coding-tools-compare.html")],
+    "tutorial/antigravity": [
+        ("Google Antigravity 下载安装中文汉化", WP_BASE + "/tutorial/google-antigravity-download-install-chinese.html"),
+        ("Antigravity 国内使用：代理 / TUN / 节点", WP_BASE + "/tutorial/antigravity-proxy-tun-node-setup.html"),
+        ("Antigravity 免费额度用完怎么办", WP_BASE + "/tutorial/antigravity-free-quota-solutions.html")],
+}
+
+def _wp_short(t, n=20):
+    for sep in ("：", ": ", "｜", "|", " · ", "·", " — ", "—"):
+        if sep in t:
+            t = t.split(sep)[0].strip(); break
+    t = t.strip()
+    return t if len(t) <= n else t[:n - 1] + "…"
+
+def _wp_items(cat, n):
+    url = "%s/category/%s/feed/" % (WP_BASE, cat)
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (SignalTower build)"})
+        data = urllib.request.urlopen(req, timeout=8).read()
+        root = ET.fromstring(data)
+        out = []
+        for it in root.iter("item"):
+            t = (it.findtext("title") or "").strip()
+            l = (it.findtext("link") or "").strip()
+            if t and l:
+                out.append((t, l))
+            if len(out) >= n:
+                break
+        if out:
+            return out
+    except Exception as e:
+        print("  [wp] 分类 %s 抓取失败(%s)，改用离线兜底" % (cat, e))
+    return WP_FALLBACK.get(cat, [])[:n]
+
+def _build_hd_groups():
+    gs = []
+    for s in WP_SECTIONS:
+        items = _wp_items(s["cat"], s["n"])
+        if items:
+            gs.append({"t": s["t"], "c": s["c"], "links": items})
+    return gs
+
+HD_GROUPS = _build_hd_groups()
 
 def _hd_group(g):
     links = "".join(
-        '<a class="hd-link" href="%s%s" target="_blank" rel="noopener">%s<span aria-hidden="true">↗</span></a>'
-        % (BLOG, path, esc(label)) for (label, path) in g["links"])
+        '<a class="hd-link" href="%s" target="_blank" rel="noopener" title="%s">%s<span aria-hidden="true">↗</span></a>'
+        % (url, esc(title), esc(_wp_short(title))) for (title, url) in g["links"])
     return ('<div class="hd-group-h"><span class="hd-dot" style="--c:%s" aria-hidden="true"></span>%s</div>%s'
             % (g["c"], esc(g["t"]), links))
 
-def hd_rail_html():
-    # 详情页正文右栏「延伸阅读」浮动广告位：桌面靠右绕排、手机全宽堆叠。只推与机场强相关的教程。
+def _hd_feature(a):
+    # 详情页专属：直链本机场在攻略博客的深度评测原文（slug 一致）
+    if not a:
+        return ""
+    return ('<a class="hd-feature" href="%s" target="_blank" rel="noopener" '
+            'style="display:block;margin:2px 0 14px;padding:11px 13px;border-radius:12px;text-decoration:none;'
+            'line-height:1.5;background:linear-gradient(135deg,rgba(255,184,77,.15),rgba(58,160,255,.10));'
+            'border:1px solid rgba(255,184,77,.38)">'
+            '<span style="display:block;font-size:12px;color:var(--amber);letter-spacing:.02em">📖 本机场 · 博客深度评测原文</span>'
+            '<b style="display:block;color:var(--ink);font-size:14px;margin-top:2px">%s 完整评测 ↗</b></a>'
+            % (wp_article_url(a["slug"]), esc(a["name"])))
+
+def hd_rail_html(a=None):
+    # 详情页正文右栏「延伸阅读」浮动广告位：桌面靠右绕排、手机全宽堆叠。真实文章直读自 WP 博客。
     groups = "".join('<div class="hd-group">%s</div>' % _hd_group(g) for g in HD_GROUPS)
     return (
         '<aside class="hd-rail" aria-label="信号塔攻略推荐">'
         '<div class="hd-rail-top"><span class="hd-eyebrow">📡 信号塔攻略</span>'
         '<p class="hd-hook">机场连上了，AI 却打不开、老被封号？<b>先按信号塔攻略逐项排查。</b></p></div>'
-        '%s'
+        '%s%s'
         '<a class="hd-more" href="%s" target="_blank" rel="noopener">信号塔攻略 · 更多实用教程 ↗</a>'
-        '</aside>' % (groups, BLOG))
+        '</aside>' % (_hd_feature(a), groups, BLOG))
 
-def hd_dock_html():
+def hd_dock_html(a=None):
     # 屏幕右缘悬浮件：与 .hd-rail 同源内容。app.js 用 IntersectionObserver 观察 in-flow 的 .hd-rail，
     # 正文区(rail 在场)隐藏、滚过 rail 后加 .is-live 由把手接棒 —— 二者互斥，绝不同屏重复。
     # 宽屏(≥1760)展开落在右侧空白 in-gutter 零遮挡；窄屏点击→右侧抽屉+遮罩；手机→右下 FAB→底部 sheet。
@@ -147,9 +209,9 @@ def hd_dock_html():
         '<button class="hd-panel-close" type="button" data-hd-close aria-label="收起">×</button>'
         '<span class="hd-eyebrow">📡 信号塔攻略</span>'
         '<p class="hd-hook">机场连上了，AI 却打不开、老被封号？<b>先按信号塔攻略逐项排查。</b></p>'
-        '%s'
+        '%s%s'
         '<a class="hd-more" href="%s" target="_blank" rel="noopener">信号塔攻略 · 更多实用教程 ↗</a>'
-        '</aside></div>' % (groups, BLOG))
+        '</aside></div>' % (_hd_feature(a), groups, BLOG))
 
 def hd_home_html():
     # 首页 / 机场大全「信号塔攻略博客」区块：三组精选教程 + 进入博客主按钮。
@@ -432,9 +494,9 @@ def render_detail(a):
     out += ai_banner_html()
     out += '</section>'
     # doc
-    out += '<section class="section wrap"><div class="doc">%s<div class="prose">%s</div>%s</div></section>' % (toc_html, prose, hd_rail_html())
+    out += '<section class="section wrap"><div class="doc">%s<div class="prose">%s</div>%s</div></section>' % (toc_html, prose, hd_rail_html(a))
     # 信号塔攻略右缘悬浮件（fixed 定位，DOM 位置不影响；放 .doc 之后确保 .hd-rail 先入 DOM 供 IO 观察）
-    out += hd_dock_html()
+    out += hd_dock_html(a)
     # AI 解锁教程引流专区
     out += ai_promo_html()
     # cta band
