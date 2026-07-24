@@ -45,14 +45,14 @@ def aff_tgt(slug):
 AI_SHOP = "https://shop.rtxk.us"
 AI_CARDS = [
     {"key": "chatgpt", "name": "ChatGPT", "c1": "#10A37F", "c2": "#19C79A", "sym": "✺",
-     "badge": "登录急救", "role": "登录报错 / 封号自救",
-     "chips": ["节点选择", "免拦截", "Plus 开通"], "go": "修好 ChatGPT"},
+     "badge": "稳定开通", "role": "ChatGPT Plus 稳定订阅",
+     "chips": ["免登录报错", "少封号", "即开即用"], "go": "上车 ChatGPT"},
     {"key": "claude", "name": "Claude", "c1": "#E8825A", "c2": "#D96C43", "sym": "✳",
-     "badge": "防封直连", "role": "防封 + Claude Code 直连",
-     "chips": ["干净环境", "指纹时区", "长文本"], "go": "让 Claude 不掉线"},
+     "badge": "免封直连", "role": "Claude / Claude Code 直连",
+     "chips": ["干净环境", "长文本", "稳定不掉线"], "go": "上车 Claude"},
     {"key": "gemini", "name": "Gemini", "c1": "#4989F5", "c2": "#9168F0", "sym": "✦",
-     "badge": "地区解锁", "role": "地区解锁 / 免降智",
-     "chips": ["原生 IP", "时区对齐", "多模态"], "go": "解锁 Gemini"},
+     "badge": "地区解锁", "role": "Gemini 地区解锁 / 免降智",
+     "chips": ["原生 IP", "多模态", "免折腾"], "go": "上车 Gemini"},
 ]
 
 def ai_promo_html():
@@ -61,7 +61,7 @@ def ai_promo_html():
         chip_html = "".join('<span class="chip">%s</span>' % esc(x) for x in c["chips"])
         cards.append(
             '<a class="ai-card %s" href="%s" target="_blank" rel="noopener sponsored" '
-            'aria-label="查看 %s 解锁教程">'
+            'aria-label="上车 %s 稳定订阅">'
             '<span class="ai-badge">%s</span>'
             '<span class="ai-logo" style="--c1:%s;--c2:%s" aria-hidden="true">%s</span>'
             '<h3>%s</h3><p class="ai-role">%s</p>'
@@ -73,15 +73,15 @@ def ai_promo_html():
         '<section class="section wrap ai-promo" id="ai-guide" aria-label="AI 解锁教程推广">'
         '<div class="ai-shell">'
         '<div class="ai-head center">'
-        '<span class="eyebrow center">🤖 AI 解锁教程</span>'
+        '<span class="eyebrow center">🤖 AI 订阅商城</span>'
         '<h2>机场连上了，AI 还是 <span class="grad-text">报错、封号？</span></h2>'
         '<p>十有八九不是机场的问题——节点没选对、浏览器指纹/时区对不上、账号环境不干净，都会让 '
-        'ChatGPT/Claude/Gemini 报错甚至封号。这几篇教程把「稳定登录 + 少封号」的正确姿势讲透，照着做解锁率立竿见影。</p></div>'
+        'ChatGPT/Claude/Gemini 报错甚至封号。懒得自己一个个调？商城里是配好的稳定账号 / 订阅，一键开通即用，免登录报错、少封号。</p></div>'
         '<div class="ai-grid">%s</div>'
         '<div class="ai-foot">'
-        '<div class="ai-foot-txt"><b>拿不准卡在哪一步？</b>教程里有 30 秒自查清单，两个问题定位你为啥连不上，再对症修。</div>'
-        '<a class="btn btn-primary btn-lg" href="%s" target="_blank" rel="noopener sponsored">进入 AI 解锁教程 ↗</a>'
-        '<a class="btn btn-ghost btn-lg" href="%s" target="_blank" rel="noopener sponsored">懒得折腾？直接上车 AI 订阅商城 ↗</a>'
+        '<div class="ai-foot-txt"><b>拿不准买哪个？</b>商城里套餐分档清晰，按需选一档，开通即用、出问题有人管，省下折腾的时间。</div>'
+        '<a class="btn btn-primary btn-lg" href="%s" target="_blank" rel="noopener sponsored">进入 AI 订阅商城 ↗</a>'
+        '<a class="btn btn-ghost btn-lg" href="%s" target="_blank" rel="noopener sponsored">看看有哪些套餐 ↗</a>'
         '</div></div></section>' % ("\n".join(cards), AI_SHOP, AI_SHOP)
     )
 
@@ -89,12 +89,12 @@ def ai_banner_html():
     # 详情页上部紧凑钩子条：放在规格表后、正文前，填补留白，新标签打开保留机场页
     return (
         '<div class="wrap" style="margin-top:30px"><a class="ai-banner" href="%s" target="_blank" '
-        'rel="noopener sponsored" aria-label="AI 解锁教程：ChatGPT、Claude、Gemini 登录报错自查">'
+        'rel="noopener sponsored" aria-label="AI 订阅商城：ChatGPT、Claude、Gemini 稳定订阅一键开通">'
         '<span class="ai-banner-dots" aria-hidden="true"><i style="--c:#4989F5"></i>'
         '<i style="--c:#10A37F"></i><i style="--c:#E8825A"></i></span>'
         '<span class="ai-banner-txt"><b>机场买了，ChatGPT 还是转圈 / 报错？</b> '
-        '十有八九不是机场的锅，是节点选错、指纹时区没对齐、账号环境不干净。3 分钟教你把 ChatGPT / Claude / Gemini 调到稳定登录、少封号。</span>'
-        '<span class="ai-banner-cta">AI 解锁教程 ↗</span></a></div>'
+        '十有八九不是机场的锅，是节点、指纹时区、账号环境没调好。懒得自己折腾？直接上车商城里调好的稳定 ChatGPT / Claude / Gemini 订阅，即开即用。</span>'
+        '<span class="ai-banner-cta">AI 订阅商城 ↗</span></a></div>'
     ) % AI_SHOP
 
 # ----------------------------------------------------------------------------- 信号塔攻略博客引流
