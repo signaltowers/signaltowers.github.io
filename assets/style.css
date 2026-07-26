@@ -529,7 +529,9 @@ table.cmp td.mono{font-family:var(--font-mono);color:var(--ink-2)}
 @media (max-width:940px){.hd-home-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){
   /* 详情页右栏 ≤760px：解除 sticky → 全宽卡片，配合 .doc 的 order:-1 置于正文前，保证引流可见 */
-  .hd-rail{position:static;margin:0 0 26px}
+  /* 用 relative 而非 static：static 会让 .hd-rail::after（right:-46px 的柔光晕）脱离本卡片的
+     包含块与 overflow:hidden 裁剪，在 375/414px 详情页造成约 46px 横向滚动。relative 布局等价、外观不变。 */
+  .hd-rail{position:relative;margin:0 0 26px}
 }
 @media (max-width:620px){.hd-home-grid{grid-template-columns:1fr}}
 
@@ -609,4 +611,225 @@ table.cmp td.mono{font-family:var(--font-mono);color:var(--ink-2)}
   .hd-dock-panel{top:auto;left:0;right:0;bottom:0;width:100%;max-width:none;
     max-height:82vh;border-radius:22px 22px 0 0;transform:translateY(100%)}
   .hd-dock.is-open .hd-dock-panel{transform:translateY(0)}
+}
+
+/* ============================================================================
+   Leonis AI 中转站 引流组件（新增第三路引流：金 → 琥珀 → 古铜）
+   色温分工：AI 订阅商城=绿蓝冷调 · 信号塔攻略=暖珊瑚 · Leonis=鎏金古铜，三者互不撞脸。
+   叙事：机场解决「连得上」，Leonis AI 解决「用得顺」——互补，不替代。
+   位置：P1 首页区块 / P2 顶部通栏(in-flow) / P3 右下悬浮窗 / P4 正文钩子条 / P5 页脚。
+   ⚠️ .leo-dock 与 .hd-dock 同理：容器绝不能加 transform/filter/perspective。
+   ============================================================================ */
+:root{
+  --leo-1:#F7B441;          /* 鬃毛金 · 渐变 stop 0 */
+  --leo-2:#EFA22B;          /* 琥珀金 · 渐变 stop .52 */
+  --leo-3:#9C5606;          /* 古铜   · 渐变 stop 1 */
+  --leo-lift:#FFDA8C;       /* 深底提亮色（物料规范指定） */
+  --leo-ink:#2A1502;        /* 金色底上的深字 */
+  --leo-grad:linear-gradient(120deg,#F7B441 0%,#EFA22B 52%,#9C5606 100%);
+}
+
+/* ---------- P2 顶部通栏（in-flow，滚动不跟随；默认 hidden，由 app.js 按 7 天记忆放行） ---------- */
+.leo-topbar{position:relative;z-index:51;background:var(--leo-grad);box-shadow:inset 0 -1px 0 rgba(0,0,0,.2)}
+.leo-topbar[hidden]{display:none}
+.leo-topbar-in{display:flex;align-items:center;gap:12px;padding:9px 0;min-height:44px}
+.leo-topbar-ic{flex:none;font-size:17px;line-height:1}
+.leo-topbar-txt{flex:1;min-width:0;margin:0;font-size:13.5px;line-height:1.45;color:#3A1D03}
+.leo-topbar-txt b{color:var(--leo-ink);font-weight:700}
+.leo-topbar-txt code{font-family:var(--font-mono);font-size:12.5px;padding:1px 6px;border-radius:6px;
+  background:rgba(255,255,255,.36)}
+.leo-topbar-cta{flex:none;white-space:nowrap;font-family:var(--font-display);font-weight:700;font-size:13px;
+  padding:7px 14px;border-radius:10px;background:#231202;color:var(--leo-lift);
+  transition:transform .16s ease,filter .16s ease}
+.leo-topbar-cta:hover{transform:translateY(-1px);filter:brightness(1.18)}
+.leo-topbar-x{flex:none;width:26px;height:26px;padding:0;border:0;border-radius:8px;cursor:pointer;
+  background:rgba(35,18,2,.14);color:var(--leo-ink);font-size:16px;line-height:1;
+  display:grid;place-items:center;transition:background .16s ease}
+.leo-topbar-x:hover{background:rgba(35,18,2,.3)}
+@media (max-width:720px){
+  .leo-topbar-in{flex-wrap:wrap;gap:8px;padding:10px 0}
+  .leo-topbar-txt{flex-basis:calc(100% - 68px);font-size:12.5px}
+  .leo-topbar-cta{order:3;flex-basis:100%;justify-content:center;text-align:center}
+}
+
+/* ---------- P1 首页 / 机场大全 / 404 原生推荐区块 ---------- */
+.leo-promo .leo-shell{position:relative;border-radius:var(--radius-l);overflow:hidden;
+  border:1px solid rgba(247,180,65,.26);padding:clamp(30px,5vw,54px);
+  background:
+    radial-gradient(120% 130% at 8% -12%,rgba(247,180,65,.17),transparent 48%),
+    radial-gradient(120% 130% at 94% 4%,rgba(156,86,6,.3),transparent 52%),
+    linear-gradient(150deg,rgba(239,162,43,.08),rgba(156,86,6,.06))}
+.leo-promo .leo-shell::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--leo-grad);opacity:.95}
+.leo-promo .eyebrow{color:var(--leo-1)}
+.leo-promo .eyebrow::before{background:linear-gradient(90deg,var(--leo-1),transparent)}
+.leo-promo .center .eyebrow::after{background:linear-gradient(270deg,var(--leo-1),transparent)}
+.leo-promo .grad-text{background:linear-gradient(100deg,var(--leo-lift),var(--leo-1) 46%,var(--leo-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.leo-promo .btn-primary{background:var(--leo-grad);color:var(--leo-ink);
+  box-shadow:0 12px 30px -10px rgba(247,180,65,.6)}
+.leo-promo .btn-primary:hover{box-shadow:0 18px 40px -12px rgba(247,180,65,.78)}
+.leo-head{max-width:720px}
+.leo-head h2{font-size:clamp(25px,4vw,40px)}
+.leo-head p{color:var(--ink-2);margin-top:14px;font-size:clamp(14.5px,1.6vw,16.5px)}
+.leo-head p b{color:var(--ink)}
+.leo-head code,.leo-banner code,.leo-code-note code{font-family:var(--font-mono);font-size:.92em;
+  padding:1px 6px;border-radius:6px;background:rgba(247,180,65,.14);color:var(--leo-lift)}
+.leo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:clamp(26px,4vw,38px) 0 22px}
+.leo-card{display:flex;flex-direction:column;gap:8px;padding:22px 20px 18px;border-radius:var(--radius);
+  border:1px solid var(--brd);background:rgba(7,10,21,.42);
+  transition:transform .2s ease,border-color .2s,background .2s}
+.leo-card:hover{transform:translateY(-5px);border-color:rgba(247,180,65,.5);background:rgba(7,10,21,.64)}
+.leo-ic{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;font-size:20px;line-height:1;
+  color:var(--leo-ink);background:var(--leo-grad);box-shadow:0 10px 26px -14px rgba(247,180,65,.95)}
+.leo-card h3{font-size:17.5px;letter-spacing:-.01em;margin:4px 0 0}
+.leo-card p{margin:0;color:var(--ink-2);font-size:13.5px;line-height:1.6}
+.leo-card .tagrow{margin-top:auto;padding-top:8px}
+.leo-code{margin-bottom:24px;padding:16px 18px;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--brd);background:rgba(7,10,21,.5)}
+.leo-code-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;
+  font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;color:var(--leo-1);text-transform:uppercase}
+.leo-code-tag{color:var(--ink-3);letter-spacing:0;text-transform:none}
+.leo-code pre{margin:10px 0 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.leo-code pre code{font-family:var(--font-mono);font-size:13px;line-height:1.75;color:var(--ink);white-space:pre}
+.leo-code-note{margin:12px 0 0;color:var(--ink-3);font-size:12.5px;line-height:1.62}
+.leo-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  padding-top:22px;border-top:1px solid var(--brd)}
+.leo-foot-txt{flex:1 1 300px;max-width:62ch;color:var(--ink-2);font-size:15px}
+.leo-foot-txt b{color:var(--ink)}
+.leo-foot-btns{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+@media (max-width:1080px){.leo-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){
+  .leo-grid{grid-template-columns:1fr}
+  .leo-foot{flex-direction:column;align-items:stretch}
+  .leo-foot-btns{flex-direction:column;align-items:stretch}
+  .leo-foot .btn{justify-content:center}
+}
+
+/* ---------- P4 正文内嵌钩子条（详情页「新手上手」之后） ---------- */
+.leo-inline{margin:34px 0}
+.leo-banner{display:flex;align-items:center;gap:15px;padding:14px 18px;border-radius:14px;
+  border:1px solid rgba(247,180,65,.3);
+  background:linear-gradient(100deg,rgba(247,180,65,.13),rgba(156,86,6,.17));
+  transition:transform .18s ease,border-color .2s,box-shadow .2s}
+.leo-banner:hover{transform:translateY(-2px);border-color:var(--leo-1);
+  box-shadow:0 18px 44px -22px rgba(247,180,65,.7)}
+.leo-banner-ic{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  font-size:19px;line-height:1;background:var(--leo-grad);box-shadow:0 10px 24px -14px rgba(247,180,65,.95)}
+.leo-banner-txt{flex:1;min-width:0;color:var(--ink-2);font-size:14.5px;line-height:1.55}
+.leo-banner-txt b{color:var(--ink);font-weight:600}
+.leo-banner-cta{flex:none;white-space:nowrap;font-family:var(--font-display);font-weight:700;font-size:14px;
+  color:var(--leo-ink);padding:10px 18px;border-radius:11px;background:var(--leo-grad);
+  box-shadow:0 10px 24px -12px rgba(247,180,65,.7)}
+@media (max-width:720px){
+  .leo-banner{flex-wrap:wrap;gap:11px;padding:14px}
+  .leo-banner-ic{order:1}.leo-banner-txt{order:2;flex-basis:100%}
+  .leo-banner-cta{order:3;width:100%;text-align:center}
+}
+
+/* ---------- P5 页脚固定链接 ---------- */
+.foot-leo{color:var(--leo-1)!important}
+.foot-leo:hover{color:var(--leo-lift)!important}
+
+/* ---------- P3 右下角悬浮窗（默认 hidden；app.js 延迟 3s 放行，关闭写 7 天 localStorage） ---------- */
+.leo-dock{display:contents}
+.leo-dock[hidden]{display:none}
+.leo-scrim{position:fixed;inset:0;z-index:88;background:rgba(3,5,12,.62);backdrop-filter:blur(2px);
+  opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,visibility .3s}
+.leo-dock.is-open .leo-scrim{opacity:1;visibility:visible;pointer-events:auto}
+/* ≥761px 展开的是右下角小卡片，不该把整页压暗遮住正文操作：遮罩保留「点外部关闭」但不着色 */
+@media (min-width:761px){.leo-scrim{background:transparent;backdrop-filter:none}}
+
+.leo-fab{position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:47;
+  display:inline-flex;transform:translateY(150%);opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .35s ease,visibility .35s}
+.leo-dock.is-live .leo-fab{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto}
+.leo-dock.is-open .leo-fab{transform:translateY(60%);opacity:0;visibility:hidden;pointer-events:none}
+.leo-handle{display:inline-flex;align-items:center;gap:9px;padding:12px 18px;border:0;border-radius:999px;
+  cursor:pointer;color:var(--leo-ink);background:var(--leo-grad);
+  font-family:var(--font-display);font-weight:700;font-size:14px;
+  box-shadow:0 18px 40px -14px rgba(247,180,65,.8),inset 0 1px 0 rgba(255,255,255,.4);
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.leo-handle:hover,.leo-handle:focus-visible{transform:translateY(-2px);filter:brightness(1.06);
+  box-shadow:0 24px 52px -14px rgba(247,180,65,.95)}
+.leo-handle .ic{font-size:18px;line-height:1}
+.leo-fab-x{position:absolute;top:-8px;right:-6px;width:22px;height:22px;padding:0;border-radius:50%;
+  cursor:pointer;border:1px solid rgba(255,255,255,.24);background:#160B01;color:var(--leo-lift);
+  font-size:13px;line-height:1;display:grid;place-items:center;
+  box-shadow:0 6px 16px -6px rgba(0,0,0,.9);transition:background .16s ease,color .16s ease}
+.leo-fab-x:hover{background:#2A1502;color:#fff}
+
+.leo-panel{position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:90;
+  width:min(340px,calc(100vw - 32px));max-height:min(560px,calc(100vh - 96px));overflow:auto;
+  padding:20px 20px 18px;border-radius:20px;isolation:isolate;border:1px solid rgba(247,180,65,.28);
+  background:
+    radial-gradient(130% 60% at 100% -6%,rgba(247,180,65,.17),transparent 58%),
+    radial-gradient(120% 70% at -10% 108%,rgba(156,86,6,.3),transparent 58%),
+    var(--bg-1);
+  box-shadow:0 40px 90px -34px rgba(0,0,0,.95),inset 0 1px 0 rgba(255,255,255,.06);
+  transform:translateY(16px) scale(.96);transform-origin:100% 100%;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .32s cubic-bezier(.16,1,.3,1),opacity .26s ease,visibility .32s}
+.leo-dock.is-open .leo-panel{transform:none;opacity:1;visibility:visible;pointer-events:auto}
+.leo-panel-close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:9px;cursor:pointer;
+  border:1px solid var(--brd);background:var(--panel);color:var(--ink-2);font-size:16px;line-height:1;
+  display:grid;place-items:center;transition:.16s ease}
+.leo-panel-close:hover{color:var(--leo-1);border-color:var(--leo-1)}
+.leo-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-display);font-weight:700;
+  font-size:15px;background:linear-gradient(100deg,var(--leo-lift),var(--leo-1) 50%,var(--leo-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.leo-panel-hook{margin-top:9px;color:var(--ink-2);font-size:12.8px;line-height:1.62}
+.leo-panel-hook b{color:var(--ink);font-weight:600}
+.leo-panel-list{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+.leo-panel-list li{display:flex;align-items:flex-start;gap:10px}
+.leo-panel-list li>span{flex:none;width:24px;height:24px;border-radius:8px;display:grid;place-items:center;
+  font-size:12px;color:var(--leo-ink);background:var(--leo-grad)}
+.leo-panel-list b{display:block;color:var(--ink);font-size:13px;font-weight:600}
+.leo-panel-list div{color:var(--ink-3);font-size:12px;line-height:1.5}
+.leo-panel-base{display:flex;align-items:center;gap:9px;margin-top:14px;padding:9px 11px;border-radius:11px;
+  border:1px dashed rgba(247,180,65,.38);background:rgba(247,180,65,.07)}
+.leo-panel-base>span{flex:none;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-3)}
+.leo-panel-base code{font-family:var(--font-mono);font-size:12.5px;color:var(--leo-lift);word-break:break-all}
+.leo-panel-cta{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;
+  padding:12px 16px;border-radius:13px;background:var(--leo-grad);color:var(--leo-ink);
+  font-family:var(--font-display);font-weight:700;font-size:13.5px;
+  box-shadow:0 16px 34px -16px rgba(247,180,65,.85);transition:transform .18s ease,filter .18s ease}
+.leo-panel-cta:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.leo-panel-more{display:block;margin-top:9px;text-align:center;color:var(--ink-2);font-size:12.5px}
+.leo-panel-more:hover{color:var(--leo-1)}
+.leo-panel-mute{display:block;width:100%;margin-top:12px;padding:7px 0;border:0;background:none;cursor:pointer;
+  color:var(--ink-3);font-family:var(--font-body);font-size:11.5px;transition:color .16s ease}
+.leo-panel-mute:hover{color:var(--ink-2);text-decoration:underline}
+
+@media (prefers-reduced-motion:reduce){
+  .leo-fab,.leo-panel{transition:opacity .2s,visibility .2s}
+  .leo-dock.is-live .leo-fab,.leo-dock.is-open .leo-fab,.leo-panel{transform:none}
+}
+
+/* ≤760：把手退化为右下角圆形 FAB，面板展开为底部 sheet */
+@media (max-width:760px){
+  .leo-fab{right:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px))}
+  .leo-handle{width:56px;height:56px;padding:0;gap:0;border-radius:50%;justify-content:center}
+  .leo-handle .tx{display:none}
+  .leo-handle .ic{font-size:26px}
+  .leo-panel{left:0;right:0;bottom:0;width:100%;max-width:none;max-height:84vh;
+    border-radius:22px 22px 0 0;transform:translateY(100%);transform-origin:50% 100%}
+  .leo-dock.is-open .leo-panel{transform:translateY(0)}
+}
+
+/* ===== 与「信号塔攻略」悬浮件 .hd-dock 的共存规则（详情页两件同屏时自动错开，绝不重叠） =====
+   .hd-dock 在 DOM 中先于 .leo-dock，故用兄弟选择器精确命中「本页同时存在两件」的场景。 */
+/* 中屏 761–1759：花渡是贴右缘的 42px 竖条把手（垂直居中）→ Leonis 右移让出这条 */
+@media (min-width:761px) and (max-width:1759px){
+  .hd-dock ~ .leo-dock .leo-fab,.hd-dock ~ .leo-dock .leo-panel{right:58px}
+}
+/* 宽屏 ≥1760：花渡面板常驻右侧留白 → Leonis 改停左侧留白，物理零重叠 */
+@media (min-width:1760px){
+  .hd-dock ~ .leo-dock .leo-fab,.hd-dock ~ .leo-dock .leo-panel{right:auto;left:clamp(18px,1.6vw,30px)}
+  .hd-dock ~ .leo-dock .leo-panel{width:min(320px,calc((100vw - var(--wrap))/2 - 40px));transform-origin:0 100%}
+  .hd-dock ~ .leo-dock .leo-fab-x{right:auto;left:-6px}
+}
+/* 手机 ≤760：花渡 FAB 占住右下角 → Leonis FAB 上移一格叠放（56px FAB + 12px 间距） */
+@media (max-width:760px){
+  .hd-dock ~ .leo-dock .leo-fab{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 }

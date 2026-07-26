@@ -10,6 +10,32 @@
 
 精选包括：Mitce、西部数据 WestData、守候 Shouhou、糖果云 CandyCloud、红杏云 HongXing、自由猫 FreeCat 等。价格与优惠码可能随官网调整，请以各机场官网为准。
 
+<p align="center">
+<a href="https://i.rtxk.us/i/r37kbkg"><img alt="Leonis AI 中转站" src="https://img.shields.io/badge/Leonis%20AI-One%20Endpoint%20%C2%B7%20All%20Models-F7B441?style=for-the-badge&labelColor=9C5606"></a>
+<a href="https://i.rtxk.us/i/r37kbkg"><img alt="Claude / GPT / Gemini 一把密钥" src="https://img.shields.io/badge/Claude%20%2F%20GPT%20%2F%20Gemini-one%20sk--%20key-EFA22B?style=for-the-badge&labelColor=2A1502"></a>
+</p>
+
+> ### 🦁 推荐搭配：[Leonis AI 中转站](https://i.rtxk.us/i/r37kbkg) —— 一个端点，抵达所有模型
+>
+> **机场解决「连得上」，Leonis AI 解决「用得顺」。** 两件事互补，谁也替代不了谁：节点买好了，人却还在 Claude Code、Codex CLI、Cherry Studio 之间反复改环境变量、换 Base URL、粘密钥。
+>
+> Leonis AI 把各家大模型的订阅额度统一成同一个 API 端点——**不改代码、不换客户端，只替换一行 Base URL**，Claude、GPT、Gemini、Grok、Antigravity 等 **6+ 模型共用一把 `sk-` 密钥**。
+>
+> - **原生工具直连** —— 官方 CLI 直接用，不需要额外插件或魔改
+> - **全程流式不缓冲** —— 长回答边生成边吐字，不会卡到最后一次性蹦出来
+> - **多账号池调度** —— 后端多号轮询，单号被限流时自动顶上，稳定性更好
+> - **一个密钥全模型** —— Claude、GPT、Gemini 共用一把 `sk-` 密钥，省心
+>
+> ```bash
+> export ANTHROPIC_BASE_URL=https://ai.svtun.cn
+> export ANTHROPIC_AUTH_TOKEN=sk-你的密钥
+> claude
+> ```
+>
+> OpenAI 兼容客户端用 `https://ai.svtun.cn/v1`；也支持 cc-switch 桌面工具「导入到 CCS」一键导入。邮箱注册几十秒完成，注册即送体验额度。
+>
+> **[🦁 Leonis AI · 免费注册领体验额度 ↗](https://i.rtxk.us/i/r37kbkg)** · **[📖 cc-switch 接入教程 ↗](https://guide.rtxk.us/tutorial/ai-coding/leonis-ai-cc-switch-guide.html)**
+
 ---
 
 ## 目录
