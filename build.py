@@ -235,12 +235,12 @@ def hd_home_html():
 # 也不得写「免翻墙 / 国内直连 / 不用机场」这类自砸机场生意的话，统一口径是「原生工具直连」。
 # 【链接规约·硬性】
 #   · 所有「能点的」——<a href>/按钮/CTA/README 链接——一律走唯一短链 LEO_LINK，且后面不加任何 query 参数
-#     （短链服务是否透传参数未验证，加参数可能 404）。全站不得出现 href="https://ai.svtun.cn..."。
+#     （短链服务是否透传参数未验证，加参数可能 404）。全站不得出现 href="https://你的专属端点..."。
 #   · 唯一例外：「给人复制粘贴进配置文件/终端的」技术配置值保留真实域名 LEO_BASE，
 #     且必须是纯文本（<code>/<pre>），绝不能用 <a> 包裹。
 #   · 按钮/卡片的可见文字不得写出真实域名，统一用品牌名「Leonis AI」。
 LEO_LINK = "https://i.rtxk.us/i/r37kbkg"          # 唯一可点跳转短链
-LEO_BASE = "https://ai.svtun.cn"                   # 仅用于配置代码块的真实 Base URL（纯文本，不可点）
+LEO_BASE = "https://你的专属端点"                   # 仅用于配置代码块的真实 Base URL（纯文本，不可点）
 LEO_GUIDE_BASE = "https://guide.rtxk.us/tutorial/ai-coding/leonis-ai-cc-switch-guide.html"  # 自有站内链，保持原样
 LEO_REL = ' target="_blank" rel="noopener sponsored"'
 
@@ -279,11 +279,11 @@ def leo_promo_html():
         '<div class="leo-code">'
         '<div class="leo-code-h"><span>Claude Code 接入示例</span>'
         '<span class="leo-code-tag">Base URL 结尾不带斜杠、不带 /v1</span></div>'
-        '<pre><code>export ANTHROPIC_BASE_URL=https://ai.svtun.cn\n'
+        '<pre><code>export ANTHROPIC_BASE_URL=https://你的专属端点\n'
         'export ANTHROPIC_AUTH_TOKEN=sk-你的密钥\n'
         'claude</code></pre>'
         '<p class="leo-code-note">OpenAI 兼容客户端（NextChat / Cherry Studio / OpenAI SDK）用 '
-        '<code>https://ai.svtun.cn/v1</code>；用 cc-switch 桌面工具的话，点「导入到 CCS」一键导入供应商配置。</p></div>'
+        '<code>https://你的专属端点/v1</code>；用 cc-switch 桌面工具的话，点「导入到 CCS」一键导入供应商配置。</p></div>'
         '<div class="leo-foot">'
         '<div class="leo-foot-txt"><b>机场解决「连得上」，Leonis AI 解决「用得顺」。</b>'
         '两件事互补，谁也替代不了谁——先有稳定节点，再让工具端少折腾。邮箱注册几十秒完成，注册即送体验额度。</div>'
@@ -343,7 +343,7 @@ def leo_dock_html():
         '<p class="leo-panel-hook"><b>一个端点，抵达所有模型。</b>'
         '机场解决「连得上」，Leonis AI 解决「用得顺」——不改代码、不换客户端，只替换一行 Base URL。</p>'
         '<ul class="leo-panel-list">%s</ul>'
-        '<div class="leo-panel-base"><span>BASE URL</span><code>https://ai.svtun.cn</code></div>'
+        '<div class="leo-panel-base"><span>BASE URL</span><code>https://你的专属端点</code></div>'
         '<a class="leo-panel-cta" href="%s"%s>免费注册领体验额度 ↗</a>'
         '<a class="leo-panel-more" href="%s"%s>看 cc-switch 接入教程 ↗</a>'
         '<button class="leo-panel-mute" type="button" data-leo-dismiss>7 天内不再显示</button>'
